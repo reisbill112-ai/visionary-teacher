@@ -49,7 +49,7 @@
       <div class="tab" onclick="openTab('dados')">Meus Dados</div>
     </div>
     <div id="perfil" class="tab-content active">
-  <p>Bill Reis. Professor ha mais de 10 anos, Palestrante, Medico Naturoterapeuta internacional, empresário e investidor. Fundador da Saude completa-Consultorio de medicina natural. Criou a Visionary Teacher com 2 objectivos: 1 Fazer o Professor ser melhor pago e mais respeitado 2 tornar as aulas mais interessantes ao mesmo tempo que ganha mais dinheiro. Sua filosofia de vida e simples porem forte. O mundo nao vai mudar mas voce certamente pode transformar a sua vida se tiver visão e parar de se vitimizar. ha alguns anos estava quebrado e sem perspetiva de futuro, hoje e um naturoterapeuta internacional e empresario bem-sucedido, com futuramentos milionarios. Por fundou a visionary, para transformar vidas.</p>
+  <p>Bill Reis. Professor ha mais de 10 anos, Palestrante, Médico Naturoterapeuta internacional, empresário e investidor. Fundador da Saúde completa-Consultório de medicina natural. Criou a Visionary Teacher com 2 objectivos: 1 Fazer o Professor ser melhor pago e mais respeitado 2 tornar as aulas mais interessantes ao mesmo tempo que ganha mais dinheiro. Sua filosofia de vida e simples porem forte. O mundo não vai mudar mas voce certamente pode transformar a sua vida se tiver visão e parar de se vitimizar. ha alguns anos estava quebrado e sem perspetiva de futuro, hoje e um naturoterapeuta internacional e empresário bem-sucedido, com futuramentos milionarios. Por fundou a visionary, para transformar vidas.</p>
       <p>Saldo virtual: <span id="saldo">0.00 Kz</span></p>
       <div id="perfilUser"></div>
       <button class="icon-btn" onclick="mostrarPendentes()">👤</button>
