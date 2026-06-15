@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Visionarys Teachers</title>
+  <style>
+    body {margin:0;font-family:Arial;background:#1e272e;color:#fff;}
+    header,footer {background:#0fbcf9;padding:15px;text-align:center;}
+    main {display:flex;min-height:90vh;}
+    aside {width:20%;background:#485460;padding:20px;box-sizing:border-box;}
+    section {flex:1;background:#2f3640;padding:20px;box-sizing:border-box;}
+    .tabs{display:flex;border-bottom:2px solid #0fbcf9;}
+    .tab{flex:1;text-align:center;padding:10px;cursor:pointer;background:#485460;}
+    .tab.active{background:#0fbcf9;font-weight:bold;}
+    .tab-content{display:none;padding:15px;}
+    .tab-content.active{display:block;}
+    input,button{width:100%;padding:8px;margin:5px 0;border-radius:5px;border:none;}
+    button{background:#0fbcf9;color:#fff;cursor:pointer;}
+    .post{background:#57606f;margin:5px 0;padding:10px;border-radius:5px;}
+    .post small{display:block;font-size:12px;color:#d2dae2;}
+    .icon-btn{background:#0fbcf9;color:#fff;padding:5px 10px;border-radius:50%;cursor:pointer;}
+    .comentarios{margin-top:10px;background:#485460;padding:10px;border-radius:5px;}
+    .comentarios input{width:80%;display:inline-block;}
+    .comentarios button{width:18%;display:inline-block;}
+  </style>
+</head>
+<body>
+<header>Visionarys Teachers</header>
+<main>
+  <aside>
+    <h3>Login</h3>
+    <input id="loginUser" placeholder="Usuário">
+    <input id="loginPass" type="password" placeholder="Senha">
+    <button onclick="login()">Entrar</button>
+    <h3>Cadastro</h3>
+    <input id="regUser" placeholder="Usuário">
+    <input id="regPass" type="password" placeholder="Senha">
+    <button onclick="register()">Cadastrar</button>
+    <h3>Estatísticas</h3>
+    <input id="statsPass" type="password" placeholder="Senha">
+    <button onclick="showStats()">Ver Estatísticas</button>
+    <div id="stats"></div>
+  </aside>
+  <section>
+    <div class="tabs">
+      <div class="tab active" onclick="openTab('perfil')">Perfil</div>
+      <div class="tab" onclick="openTab('anuncios')">Anúncios</div>
+      <div class="tab" onclick="openTab('videos')">Vídeo-aulas</div>
+      <div class="tab" onclick="openTab('dados')">Meus Dados</div>
+    </div>
+    <div id="perfil" class="tab-content active">
+      <h2>História de Bill Reís</h2>
+      <p>Bill Reís é um empreendedor visionário que criou esta plataforma para conectar pessoas e oportunidades.</p>
+      <p>Saldo virtual: <span id="saldo">0.00 Kz</span></p>
+      <div id="perfilUser"></div>
+      <button class="icon-btn" onclick="mostrarPendentes()">👤</button>
+      <div id="pendentes"></div>
+    </div>
+    <div id="anuncios" class="tab-content">
+      <h2>Anúncios</h2>
+      <h3>Painel do Admin</h3>
+
+<input id="tituloPost" placeholder="Título do anúncio">
+
+<textarea id="textoPost"
+placeholder="Digite o conteúdo do anúncio"
+style="width:100%;height:100px"></textarea>
+
+<button onclick="publicarPost()">
+Publicar
+</button>
+
+<hr>
+
+<div id="posts"></div><script>
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+function publicarPost(){
+
+    let senha = prompt("Digite a senha do Admin");
+
+    if(senha !== "12345"){
+        alert("Senha incorreta.");
+        return;
+    }
+
+    let titulo = document.getElementById("tituloPost").value;
+    let texto = document.getElementById("textoPost").value;
+
+    if(titulo==="" || texto===""){
+        alert("Preencha os campos.");
+        return;
+    }
+
+    posts.unshift({
+        titulo:titulo,
+        texto:texto,
+        data:new Date().toLocaleString()
+    });
+
+    localStorage.setItem("posts",JSON.stringify(posts));
+
+    document.getElementById("tituloPost").value="";
+    document.getElementById("textoPost").value="";
+
+    renderPosts();
+}
+
+function apagarPost(indice){
+
+    let senha = prompt("Digite a senha do Admin");
+
+    if(senha==="12345"){
+
+        posts.splice(indice,1);
+
+        localStorage.setItem("posts",JSON.stringify(posts));
+
+        renderPosts();
+
+    }else{
+        alert("Senha incorreta.");
+    }
+}
+
+function renderPosts(){
+
+    let html="";
+
+    posts.forEach((p,i)=>{
+
+        html += `
+        <div class="post">
+            <h3>${p.titulo}</h3>
+
+            <p>${p.texto}</p>
+
+            <small>${p.data}</small>
+
+            <button onclick="apagarPost(${i})">
+            Apagar
+            </button>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("posts").innerHTML = html;
+}
+
+renderPosts();
+     </script>
+
+      <div id="posts"></div>
+      <h3>Indicação</h3>
+      <p>Seu link de indicação: <span id="link">https://plataforma.com/?ref=usuario</span></p>
+    </div>
+    <div id="videos" class="tab-content">
+      <h2>Vídeo-aulas</h2>
+      <div class="video-block">
+        <video controls width="100%"><source src="video1.mp4" type="video/mp4"></video>
+        <div class="comentarios">
+          <input placeholder="Escreva um comentário" id="c1">
+          <button onclick="addComment('c1','coment1')">Enviar</button>
+          <div id="coment1"></div>
+        </div>
+      </div>
+      <div class="video-block">
+        <video controls width="100%"><source src="video2.mp4" type="video/mp4"></video>
+        <div class="comentarios">
+          <input placeholder="Escreva um comentário" id="c2">
+          <button onclick="addComment('c2','coment2')">Enviar</button>
+          <div id="coment2"></div>
+        </div>
+      </div>
+      <!-- Repita para os outros vídeos -->
+    </div>
+    <div id="dados" class="tab-content">
+      <h2>Meus Dados Pessoais</h2>
+      <input id="nome" placeholder="Nome">
+      <input id="tel" placeholder="Telefone">
+      <input id="email" placeholder="Email">
+      <input id="idade" placeholder="Idade">
+      <input id="nacionalidade" placeholder="Nacionalidade">
+      <button onclick="saveData()">Salvar Dados</button>
+    </div>
+  </section>
+</main>
+<footer>&copy; 2026 Plataforma Bill Reís</footer>
+
+  <script>
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = null;
+
+function register(){
+  let u=document.getElementById("regUser").value;
+  let p=document.getElementById("regPass").value;
+  users.push({user:u,pass:p,saldo:0,data:{},approved:false});
+  localStorage.setItem("users",JSON.stringify(users));
+  alert("Cadastro enviado para aprovação do admin.");
+}
+
+function login(){
+  let u=document.getElementById("loginUser").value;
+  let p=document.getElementById("loginPass").value;
+  let found=users.find(x=>x.user===u && x.pass===p);
+  if(found){
+    if(!found.approved){alert("Cadastro ainda não aprovado pelo admin.");return;}
+    currentUser=found;
+    document.getElementById("saldo").innerText=found.saldo.toFixed(2)+" Kz";
+    document.getElementById("perfilUser").innerHTML="<h3>Perfil do Usuário</h3><p>Nome: "+(found.data.nome||found.user)+"</p>";
+    alert("Login ok!");
+  } else alert("Usuário ou senha inválidos");
+  
+}
+
+function openTab(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+  document.querySelector(".tab[onclick*='"+id+"']").classList.add("active");
+  document.getElementById(id).classList.add("active");
+}
+
+function saveData(){
+  if(currentUser){
+    currentUser.data={
+      nome:document.getElementById("nome").value,
+      tel:document.getElementById("tel").value,
+      email:document.getElementById("email").value,
+      idade:document.getElementById("idade").value,
+      nacionalidade:document.getElementById("nacionalidade").value
+    };
+    localStorage.setItem("users",JSON.stringify(users));
+    alert("Dados salvos!");
+  }
+}
+
+function showStats(){
+  let pass=document.getElementById("statsPass").value;
+  if(pass==="12345"){
+    let lista="<ul>";
+    users.forEach(u=>{
+      lista+="<li>"+u.user+" | Aprovado: "+u.approved+"</li>";
+    });
+    lista+="</ul>";
+    document.getElementById("stats").innerHTML=lista;
+  } else alert("Senha incorreta");
+}
+
+function mostrarPendentes(){
+  let pass=prompt("Digite a senha:");
+  if(pass==="12345"){
+    let pendentes=users.filter(u=>!u.approved);
+    if(pendentes.length===0){
+      document.getElementById("pendentes").innerHTML="Nenhum usuário pendente.";
+    } else {
+      let html="<h3>Usuários Pendentes</h3>";
+      pendentes.forEach((u,i)=>{
+        html+="<p>"+u.user+" <button onclick='aprovar(\""+u.user+"\")'>Aprovar</button></p>";
+      });
+      document.getElementById("pendentes").innerHTML=html;
+    }
+  } else alert("Senha incorreta");
+}
+
+function aprovar(userName){
+  let u=users.find(x=>x.user===userName);
+  if(u){u.approved=true;}
+  localStorage.setItem("users",JSON.stringify(users));
+  alert("Usuário "+userName+" aprovado!");
+  mostrarPendentes();
+}
+
+// Comentários nos vídeos
+function addComment(inputId,divId){
+  let txt=document.getElementById(inputId).value;
+  if(txt.trim()===""){alert("Digite um comentário.");return;}
+  let div=document.getElementById(divId);
+  let p=document.createElement("p");
+  p.textContent=(currentUser?currentUser.user:"Anônimo")+": "+txt;
+  div.appendChild(p);
+  document.getElementById(inputId).value="";
+}
+</script>
